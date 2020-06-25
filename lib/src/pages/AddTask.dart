@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hello_world/src/components/Task.dart';
+import 'package:hello_world/src/models/TaskModel.dart';
 
 class AddTask extends StatefulWidget {
   AddTask({Key key}) : super(key: key);
@@ -11,7 +12,16 @@ class AddTask extends StatefulWidget {
 class _AddTask extends State<AddTask> {
   String task = '';
 
-  List<String> tasks = <String>[];
+  List<TaskModel> tasks = <TaskModel>[];
+
+  _onPressed(int index) {
+    setState(() {
+      tasks.elementAt(index).setChecked();
+    });
+    /*for (var task in tasks) {
+      print(task.checked);
+    }*/
+  }
 
   final TextEditingController controllerText = new TextEditingController();
 
@@ -38,7 +48,7 @@ class _AddTask extends State<AddTask> {
           RaisedButton(
             onPressed: () {
               setState(() {
-                tasks.add(task);
+                tasks.add(TaskModel(task, false));
                 task = '';
               });
               controllerText.clear();
@@ -56,9 +66,13 @@ class _AddTask extends State<AddTask> {
                 padding: const EdgeInsets.all(8),
                 itemCount: tasks.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                    height: 50,
-                    child: Center(child: Task(tasks[index], true)),
+                  return new GestureDetector(
+                    onTap: () => _onPressed(index),
+                    child: Container(
+                      height: 50,
+                      child: Center(
+                          child: Task(tasks[index].task, tasks[index].checked)),
+                    ),
                   );
                 }),
           ),
