@@ -67,13 +67,14 @@ class _AddTask extends State<AddTask> {
                 itemCount: tasks.length,
                 itemBuilder: (BuildContext context, int index) {
                   return new GestureDetector(
-                    onTap: () => _onPressed(index),
-                    child: Container(
-                      height: 50,
-                      child: Center(
-                          child: Task(tasks[index].task, tasks[index].checked)),
-                    ),
-                  );
+                      onTap: () => _onPressed(index),
+                      child: Container(
+                        height: 50,
+                        child: Center(
+                          child: Task(index, tasks[index].task,
+                              tasks[index].checked, _onPressed),
+                        ),
+                      ));
                 }),
           ),
         ],

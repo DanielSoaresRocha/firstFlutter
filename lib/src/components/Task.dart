@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 class Task extends StatelessWidget {
+  int _index;
   String _task;
   bool _complete;
+  final Function(int) _onPressed;
 
-  Task(this._task, this._complete);
+  Task(this._index, this._task, this._complete, this._onPressed);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +18,9 @@ class Task extends StatelessWidget {
           Text(_task),
           Checkbox(
             value: _complete,
-            onChanged: (bool value) {},
+            onChanged: (bool value) {
+              _onPressed(_index);
+            },
           )
         ],
       ),
