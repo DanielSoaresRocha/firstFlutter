@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hello_world/src/components/Task.dart';
 
 class AddTask extends StatefulWidget {
   AddTask({Key key}) : super(key: key);
@@ -9,6 +10,10 @@ class AddTask extends StatefulWidget {
 
 class _AddTask extends State<AddTask> {
   String task = '';
+
+  List<String> tasks = <String>[];
+
+  final TextEditingController controllerText = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -27,11 +32,35 @@ class _AddTask extends State<AddTask> {
                   task = text;
                 });
               },
+              controller: controllerText,
             ),
           ),
           RaisedButton(
-            onPressed: () {},
+            onPressed: () {
+              setState(() {
+                tasks.add(task);
+                task = '';
+              });
+              controllerText.clear();
+            },
             child: Text('Adicionar'),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20.0),
+            child: Text('Todas as atividades:'),
+          ),
+          SizedBox(
+            height: 300.0,
+            child: ListView.builder(
+                scrollDirection: Axis.vertical,
+                padding: const EdgeInsets.all(8),
+                itemCount: tasks.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Container(
+                    height: 50,
+                    child: Center(child: Task(tasks[index], true)),
+                  );
+                }),
           ),
         ],
       ),
